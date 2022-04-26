@@ -1,7 +1,7 @@
 # AUTOMATE EXPENSES BY DATE AND AMOUNT
 
 # Use command prompt
-
+# python exp.py particulars go here +- amount
 
 import openpyxl
 from openpyxl.styles import Font, Alignment
@@ -11,8 +11,7 @@ import sys
 
 
 def new_sheet_create():                               # Called at the beginning of each month
-    print("Manually merge cells of last day")
-    print("of previous month.")
+    print("Manually merge cells of last day of the previous month")
     global sheet
     sheet = book.create_sheet(now.strftime("%B %Y"))  # Create a new sheet of required form
     if "Sheet" in book.sheetnames:                    # Delete any unwanted sheet if exists
@@ -87,7 +86,7 @@ def to_merge_cells():   # Called when date format does not match previous row da
 
 
 now = datetime.datetime.now()               # Get the current date
-loc_folder = "C:\\Users\\admin\\Downloads"         # CHANGE THIS
+loc_folder = "C:\\Users\\admin\\PycharmProjects\\HelloWorld"         # CHANGE THIS
 file_name = "expenses" + str(now.year) + ".xlsx"  # File name is expenses(YEAR).xlsx
 if file_name not in os.listdir(loc_folder):  # If file not exists,
     book = openpyxl.Workbook()               # Create a new one
@@ -99,6 +98,10 @@ if now.strftime("%B %Y") not in book.sheetnames:  # Check for sheet names
 else:
     sheet = book[now.strftime("%B %Y")]      # Else open the one which matches criteria
     total = sheet.cell(row=sheet.max_row, column=5).value     # Get last entered value in total
+# print(loc_folder + "\\expenses{}.xlsx".format(now.year))
 add(total)                                   # Call function to add the expenses
-book.save(loc_folder + "\\expenses{}.xlsx".format(now.year))  # Once returned, save it in the same file
+try:
+    book.save(loc_folder + "\\expenses{}.xlsx".format(now.year))  # Once returned, save it in the same file
+except PermissionError:
+    print("ERROR: Close the workbook first")
 book.close()                                 # Close the book
