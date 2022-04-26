@@ -42,7 +42,7 @@ def add(tot):                # Active every time program is executed
     var.alignment = Alignment(vertical="center", horizontal="left")  # Align
     sheet.cell(row=row, column=2).value = " ".join(sys.argv[1:-1]).title()  # Second column from cmd
     try:                                  # If amount is not provided, handle exception
-        if sys.argv[-1] < "0":            # Negative for debit
+        if int(sys.argv[-1]) < 0:            # Negative for debit
             sheet.cell(row=row, column=3).value = abs(int(sys.argv[-1]))  # Store in third column
         else:                             # Positive for credit
             sheet.cell(row=row, column=4).value = int(sys.argv[-1])  # Store in fourth column
